@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/header :: index_header}"/>
+<body>
+
+	<!-- ======= Hero Section ======= -->
+	<section id="frmset" class="d-flex align-items-center">
+		<div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+			<div style="text-align: left;">
+
+				<h1>게시판 댓글 입력</h1>
+
+				<table style="width: 100%;" border="1"></tr>
+					<tr><th>code</th>  <td th:text="${menu_reply.code}"></td></tr>
+					<tr><th>originNo</th>  <td th:text="${menu_reply.originNo}"></td></tr>
+					<tr><th>groupOrd</th>  <td th:text="${menu_reply.groupOrd}"></td></tr>
+					<tr><th>groupLayer</th>  <td th:text="${menu_reply.groupLayer}"></td></tr>
+					<tr><th>제목</th>  <td style="text-align:left;"><a th:href="@{/menu_view(code=${menu_reply.code},mode=view)}" th:utext="${menu_reply.title}"></a></td></tr>
+					<tr><th>작성자</th><td th:text="${menu_reply.writer}"></td></tr>
+					<tr><th>등록일</th><td th:text="${menu_reply.regDatetime}"></td></tr>
+				</table>
+<pre style="text-align:left;">
+	<form method="post" id="menu_reply">
+		<input type="hidden~" id="code"       name="code"       th:value="${menu_reply.code          }"> => code
+		<input type="hidden~" id="originNo"   name="originNo"   th:value="${menu_reply.originNo      }"> originNo
+		<input type="hidden~" id="groupOrd"   name="groupOrd"   th:value="${menu_reply.groupOrd   + 0}"> groupOrd > max_ord
+		<input type="hidden~" id="groupLayer" name="groupLayer" th:value="${menu_reply.groupLayer + 1}"> groupLayer
+		<input type="hidden~" id="title"      name="title"      th:value="${menu_reply.title + '-'   }">
+		<input type="hidden~" id="content"    name="content"    th:value="댓글내용">
+		<input type="hidden~" id="writer"     name="writer"     th:value="댓글녀">
+	
+		<button type="button" class="menu_reply">답글</button>
+		<a href="/menu_list">목록</a>
+	</form>
+</pre>
+
+			</div>
+		</div>
+	</section><!-- End Hero -->
+
+<th:block th:replace="~{/footer :: index_footer}"/>
+
+<script type="text/javascript" th:inline="javascript">
+
+
+"use strict";
+
+$(document).ready(function()
+{
+	$(document).on("click", ".menu_reply", function ()
+	{
+		const POST_URL      = "POST|BRD|/menu_reply_insert";
+		const POST_URL_PROC = POST_URL.split("|"); 
+		const POST_PARAM    = $("#menu_reply").serialize();
+		console.log( "type  : " + POST_URL_PROC[0] );
+		console.log( "URL   : " + POST_URL_PROC[2] );
+		console.log( "PARAM : " + POST_PARAM );
+
+		// 파티예약 - 비동기 API 전송
+		$.ajax(
+		{
+			  type    : POST_URL_PROC[0]
+			, url     : POST_URL_PROC[2]
+			, data    : POST_PARAM           
+			, cache   : false           
+			, success : function(result, status)
+			{
+				console.log("result : " + result);
+				console.log("status : " + status);
+				//alert("등록 되었습니다.");
+				location.href="/menu_list";
+			},
+			error : function(request, status, error) 
+			{
+				console.log("message : " + request.status);
+				alert("오류가 발생했습니다.");
+				return false;
+			}
+		});
+  });
+
+});
+
+</script>
+
+</body>
+</html>

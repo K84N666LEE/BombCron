@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>[%d{yyyy-MM-dd HH:mm:ss}] %-5level : %logger{36} : %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<logger name="jdbc.sqlonly"             level="OFF"/>
+	<logger name="jdbc.sqltiming"           level="INFO"/>
+	<logger name="jdbc.connection"          level="OFF"/>
+	<logger name="jdbc.audit"               level="OFF"/>
+	<logger name="jdbc.resultset"           level="OFF"/>
+	<logger name="jdbc.resultsettable"      level="OFF"/>
+	<logger name="org.springframework"      level="OFF"/>
+	<logger name="com.blz.dia"              level="INFO" appender-ref="CONSOLE" />
+	<root level="INFO">
+		<appender-ref ref="CONSOLE"/>
+	</root>
+</configuration>

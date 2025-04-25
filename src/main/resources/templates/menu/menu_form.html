@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/header :: index_header}"/>
+<body>
+
+	<section id="frmset" class="d-flex align-items-center">
+		<div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+			<div style="text-align: center;">
+
+				<h1>메뉴 등록</h1>
+				<form method="post" id="menu_insert">
+
+				<table border="1" style="width: 700px; margin: auto">
+						<tr><th style="width: 50%">mode</th><td><input type="text" name="mode"   value="insert"></td></tr>
+						<tr><th style="width: 50%">제목</th><td><input type="text" name="title"   value="테스트"></td></tr>
+						<tr><th style="width: 15%">내용</th><td><input type="text" name="content" value="테스트내용"></td></tr>
+						<tr><th style="width: 15%">작성</th><td><input type="text" name="writer"  value="홍길동"></td></tr>
+				</table>
+				<input type="button" class="menu_insert" value="새글 등록">
+				<a href="/menu_list">목록</a>
+				</form>
+
+			</div>
+		</div>
+	</section>
+
+
+<th:block th:replace="~{/footer :: index_footer}"/>
+
+
+<script type="text/javascript" th:inline="javascript">
+
+	"use strict";
+
+	$(document).ready(function()
+	{
+		$(".cnt").keyup(function() { $(this).val( $(this).val().replace(/[^0-9]/gi,"") ); }); // 숫자만 입력 가능
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		// /파티생성 : menu_insert
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		// const POST_URL = "POST|MEM|/menu_insert";
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		$(document).on("click", ".menu_insert", function ()
+		{
+			const POST_URL      = "POST|BRD|/menu_insert";
+			const POST_URL_PROC = POST_URL.split("|"); 
+			const POST_PARAM    = $("#menu_insert").serialize();
+			console.log( "type  : " + POST_URL_PROC[0] );
+			console.log( "URL   : " + POST_URL_PROC[2] );
+			console.log( "PARAM : " + POST_PARAM );
+
+			// 파티예약 - 비동기 API 전송
+			$.ajax(
+			{
+				  type    : POST_URL_PROC[0]
+				, url     : POST_URL_PROC[2]
+				, data    : POST_PARAM           
+				, cache   : false           
+				, success : function(result, status)
+				{
+					console.log("result : " + result);
+					console.log("status : " + status);
+					//alert("등록 되었습니다.");
+					location.href="/menu_list";
+				},
+				error : function(request, status, error) 
+				{
+					console.log("message : " + request.status);
+					alert("오류가 발생했습니다.");
+					return false;
+				}
+			});
+	  });
+
+	});
+
+</script>
+
+</body>
+</html>

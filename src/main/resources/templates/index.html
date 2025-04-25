@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/header :: index_header}"/>
+
+  <!-- service section -->
+
+  <section id="team_section" class="service_section layout_padding">
+    <div class="service_container">
+      <div class="container ">
+        <div class="heading_container heading_center">
+          <h2>
+            Bomb <span>서비스</span>
+          </h2>
+          <p>
+            인프라가 구성 된 경우 무료 설치
+          </p>
+        </div>
+        <div class="row">
+          <div class="col-md-4 ">
+            <div class="box ">
+              <div class="img-box">
+                <img src="images/s1.png" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>
+                  무료 설치
+                </h5>
+                <p>
+                  <br/>DB 기반 다중 잡 오케스트레이션
+                  <br/> SQL 한 줄 – INSERT INTO jobs … 만으로 새 작업이 즉시 등록 · 가동됩니다.
+                  <br/>
+                  <br/>3‑Way 트리거
+                  <br/>  ① URL : REST / GraphQL / Webhook 모두 호출 가능
+                  <br/>  ② Java 클래스·메서드 : com.company.batch.InvoiceJob::run() 식 지정
+                  <br/>  ③ 스크립트 : Shell · Python · JS 파일 경로 지정 후 자동 실행
+                  <br/>
+                  <br/>CRON & human‑readable 일정
+                  <br/>  0 0/5 * * * * 뿐 아니라 every 5 minutes처럼도 등록 → 내부에서 CRON으로 변환
+                  <br/>
+                  <br/>대시보드 + Slack / Teams 알림
+                  <br/>  웹 UI에서 실행 이력·다음 실행 시각을 실시간 확인, 실패 시 알림 전송
+                  <br/>
+                  <br/>외부 호출(Webhook‑in)
+                  <br/>  타 시스템이 Bomb Scheduler URL을 호출 → 즉시 잡 실행 또는 토큰 기반 승인 후 실행
+                  <br/>
+                  <br/>경량 설치
+                  <br/>  Spring Boot 2.x 단일 .jar, H2/PG/MySQL 모두 지원. Docker 이미지 제공.
+                </p>
+                <a href="">
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 ">
+            <div class="box ">
+              <div class="img-box">
+                <img src="images/s2.png" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>
+                  무료 테스트
+                </h5>
+                <p>
+                  fact that a reader will be distracted by the readable content of a page when looking at its layout.
+                  The
+                  point of using
+                </p>
+                <a href="">
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 ">
+            <div class="box ">
+              <div class="img-box">
+                <img src="images/s3.png" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>
+                  무료 테스트
+                </h5>
+                <p>
+                  fact that a reader will be distracted by the readable content of a page when looking at its layout.
+                  The
+                  point of using
+                </p>
+                <a href="">
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-box">
+          <a href="">
+            View All
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end service section -->
+
+
+  <!-- about section -->
+
+  <section id="about_section" class="about_section layout_padding">
+    <div class="container  ">
+      <div class="heading_container heading_center">
+        <h2>
+          About <span>Us</span>
+        </h2>
+        <p>
+          우리는 국내 SI·SM 현장에서 15 년 이상 배치·통합 업무를 수행해 온 엔지니어 그룹입니다.<br/>
+          ERP → WMS → 쇼핑몰까지 다양한 현장에서 “작업 스케줄 관리가 복잡하고 비싸다”는 공통 고충을 들었고, **‘저렴하지만 확장 가능한 스케줄러’**를 직접 만들었습니다.
+        </p>
+      </div>
+      <div class="row">
+        <div class="col-md-6 ">
+          <div class="img-box">
+            <img src="images/about-img.png" alt="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-box">
+            <h3>
+              We Are Bomb Scheduler
+            </h3>
+            <p>
+              There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
+              in some form, by injected humour, or randomised words which don't look even slightly believable. If you
+              are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in
+              the middle of text. All
+            </p>
+            <p>
+              Molestiae odio earum non qui cumque provident voluptates, repellendus exercitationem, possimus at iste corrupti officiis unde alias eius ducimus reiciendis soluta eveniet. Nobis ullam ab omnis quasi expedita.
+            </p>
+            <a href="">
+              Read More
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end about section -->
+
+  <!-- why section -->
+
+  <section id="why_section" class="why_section layout_padding">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>
+          선택해야하는 <span>이유</span>
+        </h2>
+      </div>
+      <div class="why_container">
+        <div class="box">
+          <div class="img-box">
+            <img src="images/w1.png" alt="">
+          </div>
+          <div class="detail-box">
+            <h5>
+              초급 개발자 사용 가능
+            </h5>
+            <p>
+              <br/>경쟁 포인트 | Bomb Scheduler | 전통 WAS 스케줄러 | 상용 엔터프라이즈(Quartz EE 등)
+              <br/>도입 비용 | ⭐ ₩0 – ₩490,000 | 별도 WAS 라이선스 필요 | 연 ₩5 백만↑
+              <br/>배포 방식 | Jar / Docker 1개 | 복잡한 EAR 배포 | 전용 서버 필요
+              <br/>DB 연동 | INSERT → 즉시 실행 | 재빌드·재배포 필요 | 전문가 컨설팅 필수
+              <br/>다중 트리거 | URL·메서드·스크립트 모두 | 주로 메서드 | URL Hook 옵션 유료
+              <br/>학습 곡선 | 🟢 30분 Start | ⚪ 2–3일 | 🔴 1–2주
+              <br/>국문 문서·지원 | 제공 | 제한적 | 영어 전용
+            </p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-box">
+            <img src="images/w2.png" alt="">
+          </div>
+          <div class="detail-box">
+            <h5>
+              안전한 솔루션
+            </h5>
+            <p>
+              <br/>중소기업·스타트업은 **“관리비용 < 비즈니스 가치”**가 핵심입니다. Bomb Scheduler는
+              <br/>개발자 1명이 1 시간 만에 설치
+              <br/>운영 팀 없이도 Slack/메일로 상태 확인 라이선스·유지비 부담 최소을 목표로 설계되었습니다.
+            </p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-box">
+            <img src="images/w3.png" alt="">
+          </div>
+          <div class="detail-box">
+            <h5>
+              등록 즉시 적용
+            </h5>
+            <p>
+              Incidunt odit rerum tenetur alias architecto asperiores omnis cumque doloribus aperiam numquam! Eligendi corrupti, molestias laborum dolores quod nisi vitae voluptate ipsa? In tempore voluptate ducimus officia id, aspernatur nihil.
+              Tempore laborum nesciunt ut veniam, nemo officia ullam repudiandae repellat veritatis unde reiciendis possimus animi autem natus
+            </p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-box">
+            <img src="images/w4.png" alt="">
+          </div>
+          <div class="detail-box">
+            <h5>
+              Happy Customers
+            </h5>
+            <p>
+              Incidunt odit rerum tenetur alias architecto asperiores omnis cumque doloribus aperiam numquam! Eligendi corrupti, molestias laborum dolores quod nisi vitae voluptate ipsa? In tempore voluptate ducimus officia id, aspernatur nihil.
+              Tempore laborum nesciunt ut veniam, nemo officia ullam repudiandae repellat veritatis unde reiciendis possimus animi autem natus
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="btn-box">
+        <a href="">
+          Read More
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- end why section -->
+
+  <!-- team section -->
+  <section id="team_section" class="team_section layout_padding">
+    <div class="container-fluid">
+      <div class="heading_container heading_center">
+        <h2 class="">
+          개발 <span> 이력</span>
+        </h2>
+      </div>
+
+      <div class="team_container">
+        <div class="row">
+          <div class="col-lg-3 col-sm-6">
+            <div class="box ">
+              <div class="img-box">
+                <img src="images/team-2.jpg" class="img1" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>
+                  김다은
+                </h5>
+                <p>
+                  CTO
+                </p>
+              </div>
+<!--/* 
+              <div class="social_box">
+                <a href="#">
+                  <i class="fa fa-facebook" aria-hidden="true"></i>
+                </a>
+                <a href="#">
+                  <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+                <a href="#">
+                  <i class="fa fa-linkedin" aria-hidden="true"></i>
+                </a>
+                <a href="#">
+                  <i class="fa fa-instagram" aria-hidden="true"></i>
+                </a>
+                <a href="#">
+                  <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                </a>
+              </div>
+*/-->
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6">
+            <div class="box ">
+              <div class="img-box">
+                <img src="images/team-1.jpg" class="img1" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>
+                  이준혁 
+                </h5>
+                <p>
+                  Lead Engineer
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6">
+            <div class="box ">
+              <div class="img-box">
+                <img src="images/team-3.jpg" class="img1" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>
+                  정우성 
+                </h5>
+                <p>
+                  Customer Success
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6">
+            <div class="box ">
+              <div class="img-box">
+                <img src="images/team-4.jpg" class="img1" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>
+                  박소민 
+                </h5>
+                <p>
+                  UX Designer
+                </p>
+              </div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- end team section -->
+
+
+  <!-- client section -->
+
+  <section class="client_section layout_padding">
+    <div class="container">
+      <div class="heading_container heading_center psudo_white_primary mb_45">
+        <h2>
+          솔루션 <span>목록</span>
+        </h2>
+      </div>
+      <div class="carousel-wrap ">
+        <div class="owl-carousel client_owl-carousel">
+          <div class="item">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/client1.jpg" alt="" class="box-img">
+              </div>
+              <div class="detail-box">
+                <div class="client_id">
+                  <div class="client_info">
+                    <h6>
+                      김다은 CTO
+                    </h6>
+                    <p>
+                      magna aliqua. Ut
+                    </p>
+                  </div>
+                  <i class="fa fa-quote-left" aria-hidden="true"></i>
+                </div>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/client2.jpg" alt="" class="box-img">
+              </div>
+              <div class="detail-box">
+                <div class="client_id">
+                  <div class="client_info">
+                    <h6>
+                      이준혁 Lead Engineer
+                    </h6>
+                    <p>
+                      magna aliqua. Ut
+                    </p>
+                  </div>
+                  <i class="fa fa-quote-left" aria-hidden="true"></i>
+                </div>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/client1.jpg" alt="" class="box-img">
+              </div>
+              <div class="detail-box">
+                <div class="client_id">
+                  <div class="client_info">
+                    <h6>
+                      박소민 UX Designer
+                    </h6>
+                    <p>
+                      magna aliqua. Ut
+                    </p>
+                  </div>
+                  <i class="fa fa-quote-left" aria-hidden="true"></i>
+                </div>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="box">
+              <div class="img-box">
+                <img src="images/client2.jpg" alt="" class="box-img">
+              </div>
+              <div class="detail-box">
+                <div class="client_id">
+                  <div class="client_info">
+                    <h6>
+                      정우성 Customer Success
+                    </h6>
+                    <p>
+                      magna aliqua. Ut
+                    </p>
+                  </div>
+                  <i class="fa fa-quote-left" aria-hidden="true"></i>
+                </div>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end client section -->
+
+	<th:block th:replace="~{/footer :: index_footer}"/>
+	</body>
+</html>

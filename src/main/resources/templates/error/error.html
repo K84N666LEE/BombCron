@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/header :: index_header}"/>
+<body>
+
+<!-- error page start -->
+
+<section id="frmset" class="d-flex align-items-center">
+	<div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+		<div class="row justify-content-center">
+			<div class="col-xl-7 col-lg-9 text-center">
+				<th:block th:if="${ status != '' or status != null }">
+				<h1 class="fcy">ERROR</h1>
+				<h1 class="fcw" th:text="${status}"></h1>
+				</th:block>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- error page end -->
+
+<th:block th:replace="~{/footer :: index_footer}"/>
+</body>
+</html>

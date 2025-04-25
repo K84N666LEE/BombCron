@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/header :: index_header}"/>
+<body>
+
+	<section id="frmset" class="d-flex align-items-center">
+		<div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+			<div class="center">
+
+				<h1 th:text="목록"></h1>
+				<table class="table table-bordered table-hover text-center">
+					<tr style="background-color: #3f3f3f; color: #ffffff;">
+						<th>일련번호</th>
+						<th>originNo</th>
+						<th>groupOrd</th>
+						<th>groupLayer</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>등록일</th>
+					</tr>
+					<tr th:each="row : ${bbslist}" style="background-color: #cfcfcf;">
+						<td th:text="${row.code}"></td>
+						<td th:text="${row.originNo}"></td>
+						<td th:text="${row.groupOrd}"></td>
+						<td th:text="${row.groupLayer}"></td>
+						<td style="width:45%; text-align:left;">
+							<th:block th:if="${ row.groupLayer > 0 }">
+								<th:block th:each="num : ${#numbers.sequence(1,row.groupLayer)}">
+									&nbsp;
+								</th:block>
+							</th:block>
+							<th:block th:if="${ row.groupLayer > 0 }">
+								<img src="/img/re_img.gif">
+							</th:block>
+							<a th:href="@{/board_view(code=${row.code},mode=view)}" th:utext="${row.title}"></a>
+						</td>
+						<td th:text="${row.writer}"></td>
+						<td th:text="${row.regDatetime}"></td>
+					</tr>
+				</table>
+				<a href="/board_form">Write</a>
+
+		</div>
+	</div>
+</section>
+
+
+				<h1 th:text="목록"></h1>
+				<table class="table table-bordered table-hover text-center">
+					<tr style="background-color: #3f3f3f; color: #ffffff;">
+						<th>일련번호</th>
+						<th>originNo</th>
+						<th>groupOrd</th>
+						<th>groupLayer</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>등록일</th>
+					</tr>
+					<tr th:each="row : ${bbslist}" style="background-color: #cfcfcf;">
+						<td th:text="${row.code}"></td>
+						<td th:text="${row.originNo}"></td>
+						<td th:text="${row.groupOrd}"></td>
+						<td th:text="${row.groupLayer}"></td>
+						<td style="width:45%; text-align:left;">
+							<th:block th:if="${ row.groupLayer > 0 }">
+								<th:block th:each="num : ${#numbers.sequence(1,row.groupLayer)}">
+									&nbsp;
+								</th:block>
+							</th:block>
+							<th:block th:if="${ row.groupLayer > 0 }">
+								<img src="/img/re_img.gif">
+							</th:block>
+							<a th:href="@{/board_view(code=${row.code},mode=view)}" th:utext="${row.title}"></a>
+						</td>
+						<td th:text="${row.writer}"></td>
+						<td th:text="${row.regDatetime}"></td>
+					</tr>
+				</table>
+				<a href="/board_form">Write</a>
+
+<th:block th:replace="~{/footer :: index_footer}"/>
+</body>
+</html>

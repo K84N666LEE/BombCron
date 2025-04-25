@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>GRID</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+<script src='https://www.ibsheet.com/v7/ibleaders.js'></script>
+<script src='https://code.highcharts.com/7.1.2/highcharts.js'></script>
+<script src='https://www.ibsheet.com/v7/demo/js/lib/chart/ibchartinfo.js'></script>
+<script src='https://www.ibsheet.com/v7/demo/js/lib/chart/ibchart.js'></script>
+<script type='text/javascript' src='/js/w2ui-1.5.rc1/w2ui-1.5.rc1.min.js'></script>
+<script type='text/javascript' src='/js/w2ui-1.5.rc1/w2ui_controller.js'></script>
+<link rel="stylesheet" href="/js/w2ui-1.5.rc1/w2ui-1.5.rc1.min.css">
+<link rel="stylesheet" href="/css/bootstrap-2.3.2/docs/assets/css/bootstrap.min.css">
+</head>
+
+
+<script type="text/javascript">
+
+
+//data_json(gid, url, params);
+
+/**
+ * GRID에 조회결과를 바인딩한다.
+ *
+ * @param gid
+ * @param url
+ * @param params
+ * @returns
+ */
+function data_json(gid, url, params)
+{
+	console.log('조화중~');
+
+	$.ajax(
+	{
+		type        : "POST",
+		url         : url,
+		data        : JSON.stringify(params),
+		context     : this,
+		dataType    : 'json',
+		contentType : "application/json",
+		success     : function(data, status)
+		{
+			console.log('success > data >', data);
+
+			if(data.length <= 0) {
+				console.log("failed~");
+			} else {
+				console.log("data succcess~");
+			}
+		},
+		complete : function() {
+			console.log("complete");
+		},
+		error : function() {
+			console.log("error")
+		}
+	});
+}
+</script>
+
+	<table border=0 width=100%>
+	<tr style="height:70px;">
+		<td style="padding-left:15px;">
+			<a href="/admin"><img src="/images/favicon/favicon.png" style="width:45px;"></a>
+		</td>
+		<td class=tr style='color:#666;font-weight:bold;color:#999;'>
+			<span class="dsp_date" id="Date"></span>
+			<span class="dsp_time" id="hours"></span><span class="dsp_time" id="point">:</span><span class="dsp_time" id="min"></span><span class="dsp_time" id="point">:</span><span class="dsp_time" id="sec"></span> &nbsp;
+			<br/> <img src="/images/favicon/rec-flash.gif" style="width:10px;"> admin (관리자)
+			&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td colspan=3 style='width:100%;text-align:left;'>
+
+			<div class="navbar">
+				<div class="navbar-inner" style='border-top: solid 1px #efefef;'>
+					<div class="container" style="width: auto;">
+
+				<!-- ----------------------------------------- -->
+				<!-- LEFT                                      -->
+				<!-- ----------------------------------------- -->
+
+				<ul class="nav" role="navigation" style='margin-left:-15px;'>
+
+				<!-- 메인 -->
+
+				<li class="dropdown">
+					<a href="" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> 메인 </a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+						<li><a href='/'           target="_news"> <img src="/images/board/icon-plus-6-12.png">  사용자 페이지 </a></li>
+						<li><a href='/admin/main' target="_self"> <img src='/images/search.png' style='width:12px; opacity:0.5;'>  사이트 현황   </a></li>
+					</ul>
+				</li>
+				<li class="dropdown"> <a>|</a> </li>
+
+				<!-- 3D -->
+
+				<li class="dropdown">
+					<a href="javascript:void(0);" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> 3DP </a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+						<li><a href="/admin/userwallet_list"> <img src='/images/search.png' style='width:12px; opacity:0.5;'> 3DP 목록 </a></li>
+						<li><a href="/admin/userwallet_form"> <img src='/images/edit16.png' style='width:12px; opacity:0.5;'> 3DP 등록 </a></li>
+					</ul>
+				</li>
+
+				<!-- 제품관리 -->
+
+				<li class="dropdown">
+					<a href="javascript:void(0);" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> 파티 </a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+						<li><a href="/admin/party_list"> <img src='/images/search.png' style='width:12px; opacity:0.5;'> 파티목록 </a></li>
+						<li><a href="/admin/party_form"> <img src='/images/search.png' style='width:12px; opacity:0.5;'> 파티등록 </a></li>
+					</ul>
+				</li>
+
+				<!-- IBsheet -->
+
+				<li class="dropdown">
+					<a href="javascript:void(0);" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> IB-Sheet </a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+						<li><a href="/admin/ib_grid"> <img src='/images/search.png' style='width:12px; opacity:0.5;'> 예제목록 </a></li>
+						<li><a href="/admin/board_grid"> <img src='/images/search.png' style='width:12px; opacity:0.5;'> 실전목록 </a></li>
+						<li><a href="/admin/board_grid2"> <img src='/images/search.png' style='width:12px; opacity:0.5;'> 실전목록2 </a></li>
+					</ul>
+				</li>
+
+				</ul>
+
+				<!-- ----------------------------------------- -->
+				<!-- RIGHT                                     -->
+				<!-- ----------------------------------------- -->
+
+				<ul class="nav pull-right">
+
+					<!-- 코드 -->
+
+					<!-- <b class="caret"></b> -->
+					<li class="dropdown">
+						<a href="javascript:void(0);" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> 코드 </a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+							<li><a href="/admin/code_list"                > <img src='/images/search.png'                style='width:12px; opacity:0.5;'> 코드 관리   </a></li>
+							<li><a href="/admin/code_list_tree"           > <img src='/images/search.png'                style='width:12px; opacity:0.5;'> 코드 관리 - TREE  </a></li>
+							<li><a href="/security"                       > <img src='/images/search.png'                style='width:12px; opacity:0.5;'> 암호화   </a></li>
+							<li><a href="/admin/secret_login"             > <img src='/images/search.png'                style='width:12px; opacity:0.5;'> 암호화 로그인  </a></li>
+							<li><a href="/loginForm.do"                   > <img src='/images/search.png'                style='width:12px; opacity:0.5;'> 암호화 로그인  </a></li>
+							<li><a href="/upload"                         > <img src='/images/search.png'                style='width:12px; opacity:0.5;'> UPLOAD1 </a></li>
+							<li><a href="/configure/bootstrap-fileinput/examples/2.html"> <img src='/images/search.png'  style='width:12px; opacity:0.5;'> UPLOAD2 </a></li>
+						</ul>
+					</li>
+
+					<!-- 배너/팝업 -->
+					
+					<li class="dropdown">
+						<a href="javascript:void(0);" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> 배너/팝업 </a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+							<li><a href="/admin/site_design_form"  > <img src='/images/search.png' style='width:12px; opacity:0.5;'> 배너  </a></li>
+							<li><a href="/admin/popup/popup_list"> <img src='/images/search.png' style='width:12px; opacity:0.5;'> 팝업  </a></li>
+						</ul>
+					</li>
+
+					<!-- # 사이트설정 # -->
+
+					<li class="dropdown">
+						<a href="javascript:void(0);" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> 사이트 설정 </a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+							<li><a href="/admin/information_form"    > <img src="/images/search.png"                style="width:12px; opacity:0.5;">  사이트 정보       </a></li>
+							<li><a href="/admin/information_document"> <img src="/images/icon_doc.png"              style="width:12px; opacity:0.5;">  회사소개 및 문서  </a></li>
+							<li><a href="/admin/page_bank_list"      > <img src="/images/icon_doc.png"              style="width:12px; opacity:0.5;">  계좌 정보         </a></li>
+							<li class="divider"></li>
+							<li><a href="/admin/main_logo"           > <img src="/images/search.png"                style="width:12px; opacity:0.5;">  로고정보          </a></li>
+							<li><a href="/imgmag/"                   > <img src="/images/search.png"                style="width:12px; opacity:0.5;">  이미지관리        </a></li>
+						</ul>
+					</li>
+
+					<!-- # 게시판관리 # -->
+
+					<li class="dropdown">
+						<a href="javascript:void(0);" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> 게시판 </a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+							<li><a href="/admin/board_manager"  > <img src="/images/board/icon-circle-1-12.png"> 게시판관리 </a></li>
+							<li><a href="/admin/board_all"      > <img src="/images/board/icon-circle-1-12.png"> 전체보기 </a></li>
+							<li class="divider"></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=java"> <img src="/images/board/icon-plus-6-12.png"> 자바</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=diablo3"> <img src="/images/board/icon-plus-6-12.png"> 게임</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=jquery"> <img src="/images/board/icon-plus-6-12.png"> 스크립트</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=linux"> <img src="/images/board/icon-plus-6-12.png"> 리눅스</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=tip"> <img src="/images/board/icon-plus-6-12.png"> 유용한 TIP</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=db"> <img src="/images/board/icon-plus-6-12.png"> 데이터베이스</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=board"> <img src="/images/board/icon-plus-6-12.png"> 자유게시판</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=utility"> <img src="/images/board/icon-plus-6-12.png"> 유틸리티 소개</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=blockchain"> <img src="/images/board/icon-plus-6-12.png"> 블럭체인</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=bike"> <img src="/images/board/icon-plus-6-12.png"> 자전거</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=kpop"> <img src="/images/board/icon-plus-6-12.png"> K-POP (M/V)</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=hardrock"> <img src="/images/board/icon-plus-6-12.png"> Hard Rock (M/V)</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=midi"> <img src="/images/board/icon-plus-6-12.png"> MIDI</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=luck"> <img src="/images/board/icon-plus-6-12.png"> 유익한상식</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=consulting"> <img src="/images/board/icon-plus-6-12.png"> 프로그램 의뢰</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=project"> <img src="/images/board/icon-plus-6-12.png"> 프로젝트게시판</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=php"> <img src="/images/board/icon-plus-6-12.png"> PHP</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=3dp"> <img src="/images/board/icon-plus-6-12.png"> 3D 프린팅</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=soccer"> <img src="/images/board/icon-plus-6-12.png"> 축구</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=useful"> <img src="/images/board/icon-plus-6-12.png"> 업로드 대기 정보</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=universe"> <img src="/images/board/icon-plus-6-12.png"> 우주</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=XPlatform"> <img src="/images/board/icon-plus-6-12.png"> XPlatform</a></li>
+							<li><a href="/admin/board_list?mode=list&bbs_code=notice"> <img src="/images/board/icon-plus-6-12.png"> 공지사항</a></li>
+							</ul>
+					</li>
+
+					<!-- 통계 -->
+
+					<li class="dropdown">
+						<a href="javascript:void(0);" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> 통계 </a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+							<li><a href="/admin/a_statistic/s_member_age"            > <img src="/images/board/icon-circle-1-12.png">  회원통계     </a></li>
+							<li class="divider"></li>
+							<li><a href="/admin/a_statistic/status_content_count"    > <img src="/images/board/icon-plus-6-12.png"  >  제품조회수   </a></li>
+							<li><a href="/admin/a_statistic/status_orders"           > <img src="/images/board/icon-plus-6-12.png"  >  제품주문통계 </a></li>
+							<li><a href="/admin/a_statistic/status_sales"            > <img src="/images/board/icon-plus-6-12.png"  >  구매완료통계 </a></li>
+							<li class="divider"></li>
+							<li><a href="/admin/a_statistic/status_access"           > <img src="/images/board/icon-plus-6-12.png"  >  접속통계     </a></li>
+							<li><a href="/admin/a_statistic/s_access"                > <img src="/images/board/icon-plus-6-12.png"  >  접속통계 (L) </a></li>
+						</ul>
+					</li>
+					<li class="dropdown"> <a>|</a> </li>
+
+					<!-- 회원관리 -->
+
+					<li class="dropdown">
+						<a href="javascript:void(0);" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> 회원 </a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+							<li><a href="/admin/member_list"      > <img src="/images/board/icon-circle-1-12.png"> 전체회원 </a></li>
+							<li class="divider"></li>
+							</ul>
+					</li>
+
+							<!-- 관리자 -->
+
+							<li id="fat-menu" class="dropdown"><span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+								<a href="javascript:void(0);" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"> 관리자 </a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+									<li><a href="/admin/admin_list"                 > <img src='/images/search.png' style='width:12px; opacity:0.5;'>  관리자       </a></li>
+									<li><a href="/admin/site_access_page_list"      > <img src='/images/search.png' style='width:12px; opacity:0.5;'>  접속 페이지 목록 </a></li>
+									<li><a href="/admin/site_access_page_list_group"> <img src='/images/search.png' style='width:12px; opacity:0.5;'>  접속 페이지 통계  </a></li>
+									<li><a href="/admin/site_access_list"           > <img src='/images/search.png' style='width:12px; opacity:0.5;'>  보안 관리 통계     </a></li>
+									<li class="divider"></li>
+									<li><a href="/admin/logout"> <img src='/images/icon_dot.png' style='width:12px; opacity:0.5;'>  로그아웃 </a></li>
+								</ul>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</td>
+	</tr>
+	</table>
+</div>
+<div class='pcc' style="height: 113px;"></div>
+
+<div class='mob' style="position: fixed; float:left; top:0px; width: 100%; height:65px; line-height:65px; z-index: 999; overflow-y: auto; background-color:#000;">
+	<div style='float:left; padding: 0px 0px 0px 20px; height:65px; line-height:65px; overflow:hidden;'>
+		<div style="float:left;"><a href='/admin/'><img src='/images/favicon/java_spring_favicon.png' style='height:25px;'></a></div>
+	</div>
+	<div style='float:right; padding: 0px 20px 0px 0px;'>
+		<a href="javascript:;" class="left_menu"><img src='/images/menu_navigation.png' style='width: 30px;'></a>
+	</div>
+</div>
+
+<div class='left_menu_close' style='display:none;'>
+	<div style='float:left;width:50%;text-align:left; background-color:#fff;height:35px;line-height:35px;'>
+		&nbsp; 
+		<a href="/admin/member/logout"> 로그아웃 </a>
+	</div>
+	<div style='float:left;width:50%;text-align:right; background-color:#fff;height:35px;line-height:35px;'>
+		<input type=button id='header_menu_close' class='abutton black normal bs' value='닫기'>&nbsp;
+	</div>
+	<div style='height:50px;'></div>
+</div>
+
+<script type="text/javascript">
+
+	$(document).ready(function()
+	{
+		$(".KOR").click(function() { location.href='/admin/include/main?mode=menu&style=KOR' });
+		$(".ENG").click(function() { location.href='/admin/include/main?mode=menu&style=END' });
+
+		$(".menu_bar").click(function()
+		{
+			var menu_num  = $(this).attr("data-num");
+			var row_count = $(this).attr("rows");
+			$("#navigation").val(menu_num);
+			for(var i=1;i<1000;i++) { $(".V_"+i).hide(); }
+			$(".V_"+menu_num).toggle();
+			for(var i=0;i<1000;i++)
+			$("#"+i).css("color","#000000");
+			$(this).css("color","#ffcc00");;
+		});
+
+		$(".p_img").fadeTo( "fast", 0.7);
+		$(".p_img").mouseover(function() { $(this).fadeTo( "fast", 1.0); }),
+		$(".p_img").mouseout (function() { $(this).fadeTo( "fast", 0.7); });
+
+		$('.M_HEAD').click( function()
+		{
+			var open = $(this).attr("data-num");
+
+			for(var i = 0; i < 30; i++)
+			{
+				if( i == open)
+				$('.o_'+open).show("slow");
+				else
+				$('.o_'+i).hide("slow");
+			}
+
+			//$('.o_'+open).show("slow");
+		});
+
+		$('.left_menu').click( function()
+		{
+			var effect   = 'slide';
+			var options  = { direction: "right" };
+			var duration = 500;
+			var data     = "num=" + $("#navigation").val();
+
+			$('.left_menu_close').toggle("right");
+		});
+
+		$('#header_menu_close').click( function()
+		{
+			$('.left_menu_close').fadeOut();
+		});
+	});
+
+</script>
+ <!-- defined header --><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'ko', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<center>
+<div style="height:20px;"> &nbsp; </div>
+<div style="width:98%;padding:20px 0px 20px 0xp; overflow:hidden; border: solid 0px red;font-size:20px; font-weight:bold;">
+	사이트 전체 현황
+</div>
+<div style="height:20px;"> &nbsp; </div>
+<div id="google_translate_element"></div>
+<div><b>redirect url : </b></div>
+
+<table class='wp_98per center'>
+	<tr>
+		<td width="428" colspan="2">
+
+			<div style="width:100%; text-align:left; padding:10px 0px 10px 0px; border: solid 0px red;">
+				<a href='../a_statistic/status_access.html' style='font-size:15px;font-weight:bold;'>
+					<img src='/images/s_m_26.png'                style='width:24px; opacity:1.0;'> 방문자 현황
+				</a>
+			</div>
+			
+			<!-- GRID LIST (famous) -->
+			@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+			<div style="position: relative; height:100px;">
+				<div id="status_tatal" style="position: absolute; width: 100%; height:55px;"></div>
+			</div>
+			@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</td>
+	</tr>
+</table>
+
+###################
+<div id="container1" style="min-width: 98%; height: 285px; margin: 0 auto" class="grapth_zone"></div>
+<div id="container2" style="width: 98%; margin: 0 auto"></div>
+<div id="container3" style="width: 98%; margin: 0 auto"></div>
+<div id="container4" style="width: 98%; margin: 0 auto"></div>
+<div id="container5" style="width: 98%; margin: 0 auto"></div>
+#####################
+<script type="text/javascript">
+
+$(document).ready(function()
+{
+	<!-- 실선 그래프 : 접속자 & 페이지 뷰-->
+
+    $('#container1').highcharts(
+    {
+        title    : { text    : '제목' },
+        subtitle : { text    : '내용' },
+ 				credits  : { enabled : false },
+
+        xAxis: {
+            categories: [
+            	"2022-10-23","2022-10-24","2022-10-25","2022-10-26","2022-10-27","2022-10-28","2022-10-29","2022-10-30","2022-10-31","2022-11-01","2022-11-02","2022-11-03","2022-11-04","2022-11-05","2022-11-06","2022-11-07","2022-11-08","2022-11-09","2022-11-10","2022-11-11","2022-11-12","2022-11-13","2022-11-14","2022-11-15","2022-11-16","2022-11-17","2022-11-18","2022-11-19","2022-11-20","2022-11-21","2022-11-22","2022-11-23","2022-11-24","2022-11-25","2022-11-26","2022-11-27","2022-11-28","2022-11-29","2022-11-30","2022-12-01","2022-12-02","2022-12-03","2022-12-04","2022-12-05","2022-12-06","2022-12-07","2022-12-08","2022-12-09","2022-12-10","2022-12-11","2022-12-14","2022-12-15","2022-12-16","2022-12-17","2022-12-18","2022-12-19","2022-12-20","2022-12-21","2022-12-22","2022-12-23","2022-12-24","2022-12-25","2022-12-26","2022-12-27","2022-12-28","2022-12-29","2022-12-30","2022-12-31","2023-01-01","2023-01-02","2023-01-03","2023-01-04","2023-01-05","2023-01-06","2023-01-07","2023-01-08","2023-01-09","2023-01-10","2023-01-11","2023-01-12","2023-01-13","2023-01-14","2023-01-15","2023-01-16","2023-01-17","2023-01-18","2023-01-19","2023-01-20","2023-01-21",
+            ],
+            allowDecimals: false,
+            labels: {
+                formatter: function () {
+                    return this.value; // clean, unformatted number for year
+                }
+            }
+        },
+        yAxis: {
+            title  : { text: 'Y좌표' },
+            labels : { formatter: function () { return this.value  + ''; } }
+        },
+        tooltip: { valueSuffix: ' 회' },
+				series: 
+				[
+					{ name: '접속자', color: '#0060af', data: [5,58,18,59,72,41,47,45,56,62,52,54,47,60,40,69,54,48,60,56,39,44,43,38,39,70,60,204,75,45,54,166,48,35,53,43,52,54,46,105,91,37,150,43,37,60,54,69,34,21,11,51,34,52,52,112,103,63,37,44,48,56,49,51,69,52,46,50,87,39,46,59,56,57,54,47,61,47,56,45,57,155,38,52,56,53,80,44,47,] },
+					{ name: '페이지', color: '#444444', data: [43,983,1024,583,1350,598,494,1154,1430,520,2017,1219,741,885,747,648,692,653,640,765,793,4067,2463,367,922,1249,1372,1301,399,467,770,755,549,1532,676,604,1380,910,761,4351,561,1635,971,546,566,4507,1392,1090,1017,4809,3350,625,783,610,3879,812,7624,816,985,522,508,4343,251,500,826,652,433,712,487,417,4279,4473,3762,6056,1083,884,1246,936,594,881,1043,882,3850,1217,4659,514,8362,4100,3381,] },
+				]
+	});
+
+	var chart = {
+		plotBackgroundColor: null,
+		plotBorderWidth: null,
+		plotShadow: false
+	};
+	var title = {
+		text: 'Digital2U'   
+	};      
+	var tooltip = {
+		pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	};
+	var plotOptions = {
+		pie: {
+			allowPointSelect: true,
+			cursor: 'pointer',
+			dataLabels: {
+				enabled: true,
+				format: '<b>{point.name}%</b>: {point.percentage:.1f} %',
+				style: {
+					color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+				}
+			}
+		}
+	};
+	
+	var series= [{
+	   type: 'pie',
+	   name: 'Browser share',
+	   data: 
+	 	[
+		
+			[ 'Mozilla/5.0 (compatible YandexBot/3.0 (24478) ' , 24478 ] ,
+		
+			[ 'newspaper/0.2.8 (9135) ' , 9135 ] ,
+		
+			[ 'Mozilla/5.0 (compatible bingbot/2.0 (6504) ' , 6504 ] ,
+		
+			[ 'Mozilla/5.0 (compatible MSIE 9.0 (5307) ' , 5307 ] ,
+		
+			[ 'Mozilla/4.0 (compatible MSIE 6.0 (3143) ' , 3143 ] ,
+		
+			[ 'Mozilla/5.0 (compatible Googlebot/2.1 (2801) ' , 2801 ] ,
+		
+			[ 'Mozilla/5.0 (Windows NT 6.3 Trident/7.0 (2327) ' , 2327 ] ,
+		
+			[ 'Mozilla/5.0 (Linux Android 6.0.1 (2191) ' , 2191 ] ,
+		
+			[ 'Mozilla/5.0 zgrab/0.x (1771) ' , 1771 ] ,
+		
+			[ 'Java/15.0.1 (1711) ' , 1711 ] ,
+		
+		]
+	}];
+
+	var json = {};
+	json.chart       = chart; 
+	json.title       = title;
+	json.tooltip     = tooltip;
+	json.series      = series;
+	json.plotOptions = plotOptions;
+	$('#container2').highcharts(json);
+});
+
+</script>
+
+<script src="/js/charts/highcharts.js"></script>
+<script src="/js/charts/highcharts-3d.js"></script>
+<script src="/js/charts/modules/exporting.js"></script>
+<script src="/js/charts/modules/export-data.js"></script>
+ 
+<script type="text/javascript">
+
+Highcharts.chart('container3', {
+    chart: {
+        type: 'pie',
+        options3d: {
+            enabled: true,
+            alpha: 45
+        }
+    },
+    title: {
+        text: "Contents of Highsoft\'s weekly fruit delivery"
+    },
+    subtitle: {
+        text: "게시판 코드별 통계"
+    },
+    plotOptions: {
+        pie: {
+            innerSize: 100,
+            depth: 45
+        }
+    },
+    series: [{
+        name: 'board amount',
+        data: [
+					  [ 'tip (167237)' , 167237 ] ,
+					  [ 'utility (81380)' , 81380 ] ,
+					  [ 'java (61783)' , 61783 ] ,
+					  [ 'db (58175)' , 58175 ] ,
+					  [ 'bike (47954)' , 47954 ] ,
+					  [ 'blockchain (36873)' , 36873 ] ,
+					  [ 'linux (20855)' , 20855 ] ,
+					  [ 'kpop (17001)' , 17001 ] ,
+					  [ 'diablo3 (11431)' , 11431 ] ,
+					  [ 'project (503)' , 503 ] ,
+					  [ 'jquery (353)' , 353 ] ,
+					  [ 'hardrock (301)' , 301 ] ,
+					  [ 'useful (119)' , 119 ] ,
+					  [ 'php (49)' , 49 ] ,
+					  [ 'notice (47)' , 47 ] ,
+					  [ 'consulting (46)' , 46 ] ,
+					  [ 'luck (46)' , 46 ] ,
+					  [ 'XPlatform (30)' , 30 ] ,
+					  [ 'board (13)' , 13 ] ,
+					  [ 'soccer (7)' , 7 ] ,
+					  [ 'midi (7)' , 7 ] ,
+        ]
+    }]
+});
+
+</script>
+
+<!-- PIE 그래프 종료 -->
+
+<script type="text/javascript">
+
+"use strict";
+
+///////////////////////////////////////////////////////////////////
+// Configure
+///////////////////////////////////////////////////////////////////
+
+const display_id     = "reservation_list";
+const display_name   = "게시판 목록(VO)";
+
+const display_id2    = "bbs_board_list";
+const display_name2  = "게시판 목록(Map)";
+
+const display_id3    = "bbs_famouse_list";
+const display_name3  = "조회수별(Map)";
+
+const display_id4    = "log_list";
+const display_name4  = "로그(Map)";
+
+const header_height  = 50;
+
+var dp    = new Date();
+var today	= dp.getFullYear() + '-' + (Number(dp.getMonth()) + 1) + '-' + dp.getDate();
+
+$(function()
+{
+	// 목록 - code
+	$('#' + display_id).w2grid(
+	{
+		  name        : display_id
+		, header      : '<span class="pull-left">'
+									+ '<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + display_name + '  </span>'
+									+ '<button class="pull-right" onclick="location.href=\'/admin/reservation_list.do\'" style="background:transparent;border:0px none;">'
+									+ '<i class="fa fa-bars" aria-hidden="true"></i>'
+									+ '</button>'
+		, show        : { header : true, lineNumbers: false, footer: true, toolbarSave: true }
+		, recid       : "bbs_num"
+		, multiSelect : false
+		, columns     :
+			[
+				  { field : 'bbs_sdate'  , size : '20%' , sortable : true, attr : 'align=center', caption : '입력일'
+						, render: function(record)
+						{
+							// substring 을 이용한 1/100초 제거!
+							return record.bbs_sdate.substring(0,19);
+						}
+				  }
+				, { field : 'bbs_code'   , size : '20%' , sortable : true, attr : 'align=center', caption : '분류' }
+				, { field : 'bbs_subject', size : '40%' , sortable : true, attr : 'align=left'  , caption : '제목' }
+				, { field : 'bbs_name'   , size : '20%' , sortable : true, attr : 'align=center', caption : '작성자' }
+			]
+		,
+		onClick: function(event) {
+			var rowData = this.get(event.recid);
+			var bbs_num = rowData.bbs_num
+			location.href="/admin/board/view/" + rowData.bbs_code + "/" + rowData.bbs_num + "/1/0";
+		}
+	});
+
+	// 게시판 목록 - code
+	$('#' + display_id2).w2grid(
+	{
+		  name        : display_id2
+		, header      : '<span class="pull-left"">'
+									+ '<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + display_name2 + '  </span>'
+									+ '<button class="pull-right" onclick="location.href=\'/admin/bbs_board_list.do?bbs_code=504\'" style="background:transparent;border:0px none;">'
+									+ '<i class="fa fa-bars" aria-hidden="true"></i>'
+									+ '</button>'
+		, show        : { header : true, lineNumbers: false, footer: true, toolbarSave: true }
+		, recid       : "bbs_num"
+		, multiSelect : false
+		, columns     :
+			[
+				  { field : 'bbs_sdate'  , size : '20%' , sortable : true, attr : 'align=center', caption : '입력일'
+						, render: function(record)
+						{
+							return w2utils.formatters['timestamp'](record.bbs_sdate);
+						}
+				  }
+				, { field : 'bbs_code'   , size : '20%' , sortable : true, attr : 'align=center', caption : '분류' }
+				, { field : 'bbs_subject', size : '40%' , sortable : true, attr : 'align=left'  , caption : '제목' }
+				, { field : 'bbs_name'   , size : '20%' , sortable : true, attr : 'align=center', caption : '작성자' }
+			]
+		,
+		onClick: function(event) {
+			var rowData = this.get(event.recid);
+			var bbs_num = rowData.bbs_num
+			///admin/board/{mode}/{bbs_code}/{bbs_num}/{page}/{bbs_type}
+			location.href="/admin/board/view/" + rowData.bbs_code + "/" + rowData.bbs_num + "/1/0";
+		}
+	});
+
+	// status_tatal - XXXX
+	$('#status_tatal').w2grid(
+	{
+		  name        : "status_tatal"
+		, header      : ""
+		, recid       : "total_d"
+		, columns     :
+		[
+			  { field : 'total_d', caption: '금일방문자', size: '25%', attr : 'center', resizable: true, sortable: true, render: 'float', style: 'text-align: center' }
+			, { field : 'total_m', caption: '이달방문자', size: '25%', attr : 'center', resizable: true, sortable: true, render: 'float', style: 'text-align: center' }
+			, { field : 'total_y', caption: '올해방문자', size: '25%', attr : 'center', resizable: true, sortable: true, render: 'float', style: 'text-align: center' }
+			, { field : 'total_a', caption: '전체방문자', size: '25%', attr : 'center', resizable: true, sortable: true, render: 'float', style: 'text-align: center' }
+		]
+		,
+		records:
+		[
+			{   total_d: "47"
+			  , total_m: "1236"
+			  , total_y: "1236"
+			  , total_a: "154379"
+			}
+		]
+		,
+		onClick: function(event) {
+			var rowData = this.get(event.recid);
+			alert(rowData.total_a);
+		}
+	});
+
+	// 게시판 목록 - 조회수별
+	$('#' + display_id3).w2grid(
+	{
+		  name        : display_id3
+		, header      : '<span class="pull-left"">'
+									+ '<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + display_name3 + '  </span>'
+									+ '<button class="pull-right" onclick="location.href=\'/admin/bbs_board_list.do?bbs_code=504\'" style="background:transparent;border:0px none;">'
+									+ '<i class="fa fa-bars" aria-hidden="true"></i>'
+									+ '</button>'
+		, show        : { header : true, toolbar : true, lineNumbers: false, footer: true, toolbarSave: true, selectColumn: true }
+		, recid       : "bbs_num"
+		, multiSelect : false
+		, columns     :
+			[
+				  { field : 'bbs_sdate'  , size : '100px' , sortable : true, attr : "align=center", caption : '입력일'
+						, render: function(record) { return record.bbs_sdate.substring(0,10); }
+				  }
+				, { field : 'bbs_code'   , size : '20%' , sortable : true, attr : 'align=center', caption : '분류' }
+				, { field : 'bbs_subject', size : '40%' , sortable : true, attr : 'align=left'  , caption : '제목' }
+				, { field : 'bbs_name'   , size : '20%' , sortable : true, attr : 'align=center', caption : '작성자' }
+
+				, { field : 'bbs_name' , caption: '작성자', size: '20%'  , attr : 'align=center', resizable: true, sortable: true, searchable: 'text' },
+				, { field : 'bbs_count', caption: '조회수', size: '120px', resizable: true, sortable: true, render: 'float' },
+			]
+		, searches:
+			[
+				{ type: 'text', field: 'bbs_subject', text: '제목' },
+			]
+		,
+		onClick: function(event) {
+			var rowData = this.get(event.recid);
+			var bbs_num = rowData.bbs_num
+			location.href="/admin/board/view/" + rowData.bbs_code + "/" + rowData.bbs_num + "/1/0";
+		}
+	});
+
+	// 게시판 목록 - 조회수별
+	$('#' + display_id4).w2grid(
+	{
+		  name        : display_id4
+		, header      : '<span class="pull-left"">'
+									+ '<i class="fa fa-exclamation-circle" aria-hidden="true"></i> ' + display_name4 + '  </span>'
+									+ '<button class="pull-right" onclick="location.href=\'/admin/bbs_board_list.do?bbs_code=504\'" style="background:transparent;border:0px none;">'
+									+ '<i class="fa fa-bars" aria-hidden="true"></i>'
+									+ '</button>'
+		, show        : { header : true, toolbar : true, lineNumbers: false, footer: true, toolbarSave: true, selectColumn: true }
+		, recid       : "sap_num"
+		, multiSelect : false
+		, columns     :
+			[
+				  { field : 'sap_create_d'  , size : '100px' , sortable : true, attr : "align=center", caption : '입력일'
+						, render: function(record) { return record.sap_create_d.substring(0,10); }
+				  }
+				, { field : 'sap_part'   , size : '20%' , sortable : true, attr : 'align=center', caption : '분류' }
+				, { field : 'sap_page', size : '40%' , sortable : true, attr : 'align=left'  , caption : '페이지' }
+				, { field : 'sap_ip'   , size : '20%' , sortable : true, attr : 'align=center', caption : 'IP' }
+				, { field : 'sap_create_u' , caption: '작성자', size: '20%'  , attr : 'align=center', resizable: true, sortable: true, searchable: 'text' },
+			]
+		, searches:
+			[
+				{ type: 'text', field: 'sap_page', text: '제목' },
+			]
+		,
+		onClick: function(event) {
+			var rowData = this.get(event.recid);
+			var sap_num = rowData.sap_num;
+			alert(sap_num);
+		}
+	});
+
+	// init
+	fn_init();
+
+	// DB 바인딩!
+	fn_search_list();
+	fn_search_list2();
+
+	$(window).resize(function() { fn_init(); });
+
+	// jquery eof ~~~ !!!
+});
+
+///////////////////////////////////////////////////////////////////
+// javascript
+///////////////////////////////////////////////////////////////////
+
+// 공통 - 자동 높이 조절
+function fn_init()
+{
+	var h = $(window).height();
+}
+
+//목록 - 코드 목록(init) & 조회
+function fn_search_list()
+{
+	var url    = "/data/board_list_ajax_vo.do";
+	var params =
+	{
+		  admin_id     : "" //
+	};
+	console.log( JSON.stringify(params)) ; //return false;
+	w2ui[display_id].clear();
+	dataBind( display_id, url, params, 'no' ); // 데이터 바인딩
+}
+
+//목록 - 코드 목록(init) & 조회
+function fn_search_list2()
+{
+	var url    = "/data/board_list_ajax_map.do";
+	var params =
+	{
+		  bbs_code     : 504                      // 공지
+	};
+	console.log( JSON.stringify(params)) ; //return false;
+	w2ui[display_id2].clear();
+	dataBind( display_id2, url, params, 'no' ); // 데이터 바인딩
+}
+
+</script>
+
+<div id="wrapper">
+	<div style="position: relative; height:38px;">
+		<div style="left: 0px; width: 98%;">
+
+			<!-- GRID LIST (좌/우) -->
+			<div style="position: relative; height: 320px;">
+				<div id="reservation_list" style="position: absolute; width: 49%; height:300px;"></div>
+				<div id="bbs_board_list" style="position: absolute; right: 5px; width: 49%; height:300px;"></div>
+			</div>
+			
+			<!-- GRID LIST (famous) -->
+			<div style="position: relative; height: 600px;">
+				<div id="cccc" style="position: absolute; width: 100%; height:500px;"></div>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+</body>
+</html>

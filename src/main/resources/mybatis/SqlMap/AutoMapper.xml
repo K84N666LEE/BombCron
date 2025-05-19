@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.src.auto.AutoMapper">
+
+	<!-- 총개수 -->
+
+	<select id="auto_total" parameterType="auto_send" resultType="java.lang.Integer">
+
+		/* AutoMapper.auto_total */
+
+		SELECT  COUNT(*)
+		  FROM  AutoSend_Table
+		<where>
+			<if test=" ast_num   !=    0                     ">AND ast_num   = #{ast_num}</if>
+			<if test=" ast_fd_01 != null and ast_fd_01 != '' ">AND ast_fd_01 IN ('N','A')</if>
+		</where>
+
+		/* auto_total : 등록된 스케줄 총개수 */
+
+	</select>
+
+	<!-- 실행 되지 않은 목록 -->
+
+	<select id="auto_check" resultType="auto_send">
+
+		/* AutoMapper.auto_check */
+
+		SELECT   ast_num      -- 일련번호        
+		       , ast_siteNo   -- 사이트번호       
+		       , ast_part     -- 예비          
+		       , ast_fd_00    -- 취소여부        
+		       , ast_fd_01    -- 실행완료여부      
+		       , ast_fd_02    -- 실행시작일시      
+		       , ast_fd_03    -- 반복실행매월일     
+		       , ast_fd_04    -- 반복실행매주요일    
+		       , ast_fd_05    -- 반복실행시분초     
+		       , ast_fd_06    -- 제목(설명)      
+		       , ast_fd_07    -- 실행프로그램      
+		       , ast_fd_08    -- 넘겨줄 파리미터 값  
+		       , ast_fd_09    -- 생성위치        
+		       , ast_fd_10    -- 예비          
+		       , ast_fd_11    -- 예비          
+		       , ast_fd_12    -- 예비          
+		       , ast_create_u -- 생성자         
+		       , ast_create_d -- 생성일         
+
+		FROM AutoSend_Table
+		WHERE
+		     ast_fd_00 = 'N'
+		AND  ast_fd_01 IN ('A','N')
+		AND (ast_fd_03 IS NULL OR ast_fd_03 IN ('',      #{ast_fd_03} ))
+		AND (ast_fd_04 IS NULL OR ast_fd_04 IN ('', '7', #{ast_fd_04} ))
+		AND (ast_fd_05 IS NULL OR ast_fd_05 IN ('',      #{ast_fd_05} ))
+		AND (ast_fd_02 IS NULL OR ast_fd_02 ='' OR ast_fd_02 &lt;= #{date_now})
+		AND (ast_fd_06 IS NULL OR ast_fd_06 ='' OR ast_fd_06 &gt;= #{date_now})
+
+	</select>
+
+	<update id="auto_update" parameterType="auto_send">
+
+		/* auto_update */
+
+		UPDATE AutoSend_Table 
+		<set>
+			<if test="ast_fd_00 != '' and ast_fd_00 != null"> ast_fd_00 = #{ast_fd_00} </if>
+			<if test="ast_fd_01 != '' and ast_fd_01 != null"> ast_fd_01 = #{ast_fd_01} </if>
+		</set>
+		 WHERE ast_num   = #{ast_num}
+
+	</update>
+
+	<!-- INSERT LOG -->
+	<insert id="auto_log_insert" parameterType="auto_send_log">
+
+		/* auto_log_insert */
+
+		INSERT INTO AutoSend_Table_Log 
+		(
+			  ast_num      -- 일련번호        
+			, ast_siteNo   -- 사이트번호        
+			, ast_part     -- 예비           
+			, ast_fd_00    -- 취소여부         
+			, ast_fd_01    -- 실행완료여부       
+			, ast_fd_02    -- 실행시작일시       
+			, ast_fd_03    -- 반복실행매월일      
+			, ast_fd_04    -- 반복실행매주요일     
+			, ast_fd_05    -- 반복실행시분초      
+			, ast_fd_06    -- 제목(설명)       
+			, ast_fd_07    -- 실행프로그램       
+			, ast_fd_08    -- 넘겨줄 파리미터 값   
+			, ast_fd_09    -- 생성위치         
+			, ast_fd_10    -- 예비           
+			, ast_fd_11    -- 예비           
+			, ast_fd_12    -- 예비           
+			, ast_create_u -- 생성자         
+			, ast_create_d -- 생성일         
+		)
+		VALUES
+		(
+			  #{ast_num     }
+			, #{ast_siteNo  }
+			, #{ast_part    }
+			, #{ast_fd_00   }
+			, #{ast_fd_01   }
+			, #{ast_fd_02   }
+			, #{ast_fd_03   }
+			, #{ast_fd_04   }
+			, #{ast_fd_05   }
+			, #{ast_fd_06   }
+			, #{ast_fd_07   }
+			, #{ast_fd_08   }
+			, #{ast_fd_09   }
+			, #{ast_fd_10   }
+			, #{ast_fd_11   }
+			, #{ast_fd_12   }
+			, #{ast_create_u}
+			, now()
+		)
+
+	</insert>
+
+
+</mapper>

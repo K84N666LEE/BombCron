@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.src.menu.MenuMapper">
+
+	<!-- 총개수 -->
+
+	<select id="menu_total" parameterType="menu_vo" resultType="java.lang.Integer">
+
+		/* com_menu_orgMapper.menu_total */
+
+		SELECT COUNT(*)
+		  FROM com_menu_org
+
+	</select>
+
+	<!-- 목록 -->
+
+	<select id="menu_list" resultType="menu_vo">
+
+		/* com_menu_orgMapper.menu_list */
+
+		SELECT *
+		  FROM com_menu_org
+		 ORDER BY originNo ASC, groupOrd ASC
+
+	</select>
+
+
+	<select id="menu_view" resultType="menu_vo">
+
+		/* com_menu_orgMapper.menu_view */
+
+		SELECT code
+		     , originNo
+		     , groupOrd
+		     , groupLayer
+		     , title
+		     , content
+		     , writer
+		     , regDatetime
+		     , (SELECT MAX(groupOrd) FROM com_menu_org WHERE originNo=#{originNo} ) AS max_ord
+		  FROM com_menu_org
+		 WHERE code=#{code}
+
+	</select>
+
+	<select id="menu_reply" resultType="menu_vo">
+
+		/* com_menu_orgMapper.menu_reply */
+
+		SELECT code
+		     , originNo
+		     , groupOrd
+		     , groupLayer
+		     , title
+		     , content
+		     , writer
+		     , regDatetime
+		  FROM com_menu_org
+		 WHERE code=#{code}
+
+	</select>
+
+	<update id="menu_update" parameterType="menu_vo">
+
+		/* com_menu_orgMapper.menu_update */
+
+		UPDATE com_menu_org
+		<set>
+			<if test="ast_fd_00 != '' and ast_fd_00 != null"> ast_fd_00 = #{ast_fd_00} </if>
+			<if test="ast_fd_01 != '' and ast_fd_01 != null"> ast_fd_01 = #{ast_fd_01} </if>
+		</set>
+		 WHERE code   = #{code}
+
+	</update>
+
+	<!--입력 -->
+	<insert id="menu_insert" parameterType="menu_vo">
+
+		/* com_menu_org_insert */
+
+		<selectKey resultType="int" keyProperty="originNo" order="BEFORE">
+		SELECT IFNULL(MAX(code) + 1, 1)
+		  FROM com_menu_org
+		</selectKey>
+
+		INSERT INTO com_menu_org
+		(
+			  originNo
+			, groupOrd
+			, groupLayer
+			, title
+			, content
+			, writer
+			, regDatetime
+		)
+		VALUES
+		(
+			  #{originNo    }
+			, #{groupOrd    }
+			, #{groupLayer  }
+			, #{title       }
+			, #{content     }
+			, #{writer      }
+			, now()
+		)
+
+	</insert>
+
+	<!-- STEP 1 : menu_max_originNo -->
+	<select id="menu_max_originNo" parameterType="menu_vo" resultType="java.lang.Integer">
+
+		/* com_menu_orgMapper.menu_max_originNo */
+
+		SELECT MAX(groupOrd) AS max_ord
+		  FROM com_menu_org
+		 WHERE originNo=#{originNo}
+
+	</select>
+
+	<!-- STEP 2 : 입력 후 순서 재정렬 -->
+	<update id="menu_reply_update" parameterType="menu_vo">
+
+		/* menu_reply_update */
+
+		UPDATE com_menu_org
+		   SET groupOrd   = groupOrd + 1
+		 WHERE originNo   = #{originNo}
+		   AND groupOrd   > #{groupOrd}
+		   AND groupLayer = #{groupLayer}
+
+		/* MenuMapper.menu_reply_update : 댓글정렬순서변경 */
+
+	</update>
+
+	<!-- STEP 3 : menu_reply -->
+	<insert id="menu_reply_insert" parameterType="menu_vo">
+
+		/* menu_reply_insert */
+
+		<selectKey resultType="int" keyProperty="groupOrd" order="BEFORE">
+		SELECT MAX(groupOrd) + 1
+		  FROM com_menu_org
+		 WHERE originNo   = #{originNo}
+		   AND groupLayer = #{groupLayer}
+		</selectKey>
+
+		INSERT INTO com_menu_org
+		(
+			  originNo            -- 원글 번호
+			, groupOrd            -- 원글(답글포함)에 대한 순서
+			, groupLayer          -- 답글 계층
+			, title               -- 글 제목
+			, content             -- 글 내용
+			, writer              -- 작성자
+			, regDatetime         -- 등록시간
+		)
+		VALUES
+		(
+			  #{originNo    }     -- 원글 번호
+			, #{groupOrd    }   -- 원글(답글포함)에 대한 순서
+			, #{groupLayer  }     -- 답글 계층
+			, #{title       }     -- 글 제목
+			, #{content     }     -- 글 내용
+			, #{writer      }     -- 작성자
+			, now()               -- 등록시간
+		)
+
+		/* MenuMapper.menu_reply_insert : 서브메뉴입력 */
+
+	</insert>
+
+    <insert id="menu_save" parameterType="menu_vo">
+
+		<selectKey resultType="int" keyProperty="groupOrd" order="BEFORE">
+		SELECT MAX(groupOrd) + 1
+		  FROM com_menu_org
+		 WHERE originNo   = #{originNo}
+		   AND groupLayer = #{groupLayer}
+		</selectKey>
+
+		INSERT INTO com_menu_org
+		(
+			  originNo            -- 원글 번호
+			, groupOrd            -- 원글(답글포함)에 대한 순서
+			, groupLayer          -- 답글 계층
+			, title               -- 글 제목
+			, content             -- 글 내용
+			, writer              -- 작성자
+			, regDatetime         -- 등록시간
+		)
+		VALUES
+		(
+			  #{originNo    }     -- 원글 번호
+			, #{groupOrd    }   -- 원글(답글포함)에 대한 순서
+			, #{groupLayer  }     -- 답글 계층
+			, #{title       }     -- 글 제목
+			, #{content     }     -- 글 내용
+			, #{writer      }     -- 작성자
+			, now()               -- 등록시간
+		)
+
+    </insert>
+
+</mapper>

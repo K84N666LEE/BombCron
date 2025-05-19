@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.src.board.BoardMapper">
+
+	<!-- 총개수 -->
+
+	<select id="board_total" parameterType="BoardVO" resultType="java.lang.Integer">
+
+		/* com_boardMapper.board_total */
+
+		SELECT COUNT(*)
+		  FROM com_board
+
+	</select>
+
+	<!-- 목록 -->
+
+	<select id="board_list" resultType="BoardVO">
+
+		/* com_boardMapper.board_list */
+
+		SELECT *
+		  FROM com_board
+		 ORDER BY originNo DESC, groupOrd ASC
+
+	</select>
+
+
+	<select id="board_view" resultType="BoardVO">
+
+		/* com_boardMapper.board_view */
+
+		SELECT code
+		     , originNo
+		     , groupOrd
+		     , groupLayer
+		     , title
+		     , content
+		     , writer
+		     , regDatetime
+		     , (SELECT MAX(groupOrd) FROM com_board WHERE originNo=#{originNo} ) AS max_ord
+		  FROM com_board
+		 WHERE code=#{code}
+		 <if test="@com.src.cmm.FunDb@isEmpty(#{code}) == null ">
+		   OR code = '1'
+		 </if>
+		 <if test="@com.src.cmm.FunDb@isEmpty(#{code}) != null ">
+		   OR 2 = 2
+		 </if>
+
+	</select>
+
+	<select id="board_reply" resultType="BoardVO">
+
+		/* com_boardMapper.board_reply */
+
+		SELECT code
+		     , originNo
+		     , groupOrd
+		     , groupLayer
+		     , title
+		     , content
+		     , writer
+		     , regDatetime
+		  FROM com_board
+		 WHERE code=#{code}
+
+	</select>
+
+	<update id="board_update" parameterType="BoardVO">
+
+		/* com_boardMapper.board_update */
+
+		UPDATE com_board
+		<set>
+			<if test="ast_fd_00 != '' and ast_fd_00 != null"> ast_fd_00 = #{ast_fd_00} </if>
+			<if test="ast_fd_01 != '' and ast_fd_01 != null"> ast_fd_01 = #{ast_fd_01} </if>
+		</set>
+		 WHERE code   = #{code}
+
+	</update>
+
+	<!--입력 -->
+	<insert id="board_insert" parameterType="BoardVO">
+
+		/* com_board_insert */
+
+		<selectKey resultType="int" keyProperty="originNo" order="BEFORE">
+		SELECT IFNULL(MAX(code) + 1, 1)
+		  FROM com_board
+		</selectKey>
+
+		INSERT INTO com_board
+		(
+			  originNo
+			, groupOrd
+			, groupLayer
+			, title
+			, content
+			, writer
+			, regDatetime
+		)
+		VALUES
+		(
+			  #{originNo    }
+			, #{groupOrd    }
+			, #{groupLayer  }
+			, #{title       }
+			, #{content     }
+			, #{writer      }
+			, now()
+		)
+
+	</insert>
+
+	<!-- STEP 1 : board_max_originNo -->
+	<select id="board_max_originNo" parameterType="BoardVO" resultType="java.lang.Integer">
+
+		/* com_boardMapper.board_max_originNo */
+
+		SELECT MAX(groupOrd) AS max_ord
+		  FROM com_board
+		 WHERE originNo=#{originNo}
+
+	</select>
+
+	<!-- STEP 2 : board_reply -->
+	<insert id="board_reply_insert" parameterType="BoardVO">
+
+		/* board_reply */
+
+		INSERT INTO com_board
+		(
+			  originNo            -- 원글 번호             
+			, groupOrd            -- 원글(답글포함)에 대한 순서
+			, groupLayer          -- 답글 계층             
+			, title               -- 글 제목              
+			, content             -- 글 내용              
+			, writer              -- 작성자               
+			, regDatetime         -- 등록시간              
+		)
+		VALUES
+		(
+			  #{originNo    }     -- 원글 번호             
+			, #{groupOrd    } + 1 -- 원글(답글포함)에 대한 순서
+			, #{groupLayer  }     -- 답글 계층             
+			, #{title       }     -- 글 제목              
+			, #{content     }     -- 글 내용              
+			, #{writer      }     -- 작성자               
+			, now()               -- 등록시간              
+		)
+
+		/* BoardMapper.board_reply : 댓글입력 */
+
+	</insert>
+
+
+	<!-- 입력 후 순서 재정렬 -->
+	<update id="board_reply_update" parameterType="BoardVO">
+
+		/* board_reply_update */
+
+		UPDATE com_board
+		   SET groupOrd   =  groupOrd + 1
+		 WHERE originNo   =  #{originNo}
+		   AND groupOrd   > #{groupOrd}
+
+		/* BoardMapper.board_reply_update : 댓글정렬순서변경 */
+
+	</update>
+
+</mapper>
+

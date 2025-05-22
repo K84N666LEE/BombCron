@@ -1,5 +1,4 @@
-package com.src.cmm;
-
+package com.src.common.configure;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;

@@ -1,4 +1,4 @@
-package com.src.cmm;
+package com.src.common;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;

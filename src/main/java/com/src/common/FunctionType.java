@@ -1,4 +1,4 @@
-package com.src.cmm;
+package com.src.common;
 
 import java.lang.reflect.Array;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Map;
  * @author Charlotte
  *
  */
-public class FunDb {
+public class FunctionType {
 
 	@SuppressWarnings("rawtypes")
 	public static boolean isEmpty(Object obj)

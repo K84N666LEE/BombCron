@@ -38,6 +38,9 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	implementation 'org.springframework.data:spring-data-commons'
 
+	// https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream
+	implementation("com.thoughtworks.xstream:xstream:1.4.21")
+
 	compileOnly 'org.projectlombok:lombok'
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
